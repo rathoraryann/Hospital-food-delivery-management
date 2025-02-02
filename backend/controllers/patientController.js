@@ -5,7 +5,7 @@ const { verifyAuthentication } = require("../config/config");
 
 const addPatient = expressAsyncHandler(async (req, res) => {
     const { name, age, gender, roomNo, bedNo, floorNo, diseases, allergies, addmissionDate, dietChart, assignedDelivery } = req.body;
-    verifyAuthentication(req.user)
+    if (!verifyAuthentication(req.user)) return;
     if (!name || !age || !gender || !roomNo || !bedNo || !floorNo || !diseases || !allergies) {
         res.status(400).json({ msg: "fill all the fields" })
         return;
@@ -48,7 +48,7 @@ const addPatient = expressAsyncHandler(async (req, res) => {
     }
 })
 const getAllPatients = expressAsyncHandler(async (req, res) => {
-    verifyAuthentication(req.user)
+    if (!verifyAuthentication(req.user)) return;
     try {
         const patients = await Patient.find({})
         res.status(200).json(patients)
@@ -57,7 +57,7 @@ const getAllPatients = expressAsyncHandler(async (req, res) => {
     }
 })
 const getPatientById = expressAsyncHandler(async (req, res) => {
-    verifyAuthentication(req.user)
+    if (!verifyAuthentication(req.user)) return;
     const patient = await Patient.findById(req.params.id)
     if (!patient) {
         return res.status(400).json({ message: "Patient not found" })
@@ -65,7 +65,7 @@ const getPatientById = expressAsyncHandler(async (req, res) => {
     res.status(200).json(patient)
 })
 const updatePatient = expressAsyncHandler(async (req, res) => {
-    verifyAuthentication(req.user)
+    if (!verifyAuthentication(req.user)) return;
     const patient = await Patient.findById(req.params.id)
     if (!patient) {
         return res.status(400).json({ message: "Patient not found" })
@@ -85,7 +85,7 @@ const updatePatient = expressAsyncHandler(async (req, res) => {
     }
 })
 const deletePatient = expressAsyncHandler(async (req, res) => {
-    verifyAuthentication(req.user)
+    if (!verifyAuthentication(req.user)) return;
     const patient = await Patient.findById(req.params.id);
     if (!patient) {
         return res.status(400).json({ message: "Patient not found" });

@@ -15,8 +15,20 @@ const matchPassword = async (enteredPassword, userPassword) => {
     return bcrypt.compare(enteredPassword, userPassword)
 }
 
-const verifyAuthentication = async (user) => {
-    if (user.role != "manager") return res.status(400).json({ msg: "only manager is allowed to add patient" })
+const verifyAuthentication = (user) => {
+    if (user.role != "manager") return false;
+    return true;
+
 }
 
-module.exports = { generateHashedPassword, generateToken, matchPassword, verifyAuthentication }
+const verifyPantryUser = (user) => {
+    if (user.role != "pantry") return false;
+    return true
+}
+
+const verifyDeliveryUser = (user) => {
+    if (user.role != "delivery") return false
+    return true
+}
+
+module.exports = { generateHashedPassword, generateToken, matchPassword, verifyAuthentication, verifyPantryUser, verifyDeliveryUser }

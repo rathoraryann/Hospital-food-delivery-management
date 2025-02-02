@@ -7,6 +7,8 @@ const { errorHandler, notFound } = require("./middlewares/errorMiddleware")
 const userRoutes = require("./routes/userRoutes")
 const patientRoutes = require("./routes/patientRoutes")
 const dietChartRoutes = require("./routes/dietChartRoutes")
+const pantryTaskRoutes = require("./routes/pantryTaskRoutes")
+const deliveryRoutes = require("./routes/deliveryRoutes")
 
 app.use(cors());
 app.use(express.json())
@@ -17,6 +19,8 @@ connDB();
 app.use("/api/auth/user", userRoutes)
 app.use("/api/patient", patientRoutes)
 app.use("/api/diet", dietChartRoutes)
+app.use("/api/pantry-task", pantryTaskRoutes)
+app.use("/api/delivery", deliveryRoutes)
 
 
 

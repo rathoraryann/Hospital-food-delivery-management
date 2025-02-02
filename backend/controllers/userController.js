@@ -4,6 +4,7 @@ const { generateHashedPassword, generateToken, matchPassword } = require("../con
 
 const signup = asyncHandler(async (req, res) => {
     const { name, email, role, password } = req.body;
+    if (!name || !email || !role || !password) return;
     const userExist = await User.findOne({ email })
     if (userExist) {
         res.status(200).json({ msg: "user Exists" })
@@ -32,6 +33,7 @@ const signup = asyncHandler(async (req, res) => {
 
 const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
+    if (!email || !password) return;
     const user = await User.findOne({ email })
     if (user && (await matchPassword(password, user.password))) {
         res.json({
