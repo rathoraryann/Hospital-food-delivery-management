@@ -14,7 +14,7 @@ const createPantryTask = expressAsyncHandler(async (req, res) => {
     }
 })
 const getAllPantryTasks = expressAsyncHandler(async (req, res) => {
-    const pantryTasks = await PantryTask.find({})
+    const pantryTasks = await PantryTask.find({}).populate('assignedTo', '-password')
     if (pantryTasks) return res.status(200).json(pantryTasks)
     return res.status(400).json({ message: "failed! something wrong" })
 })

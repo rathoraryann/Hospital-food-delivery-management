@@ -16,6 +16,7 @@ const createDietChart = expressAsyncHandler(async (req, res) => {
             meals,
             createdBy: req.user._id
         })
+        console.log(meals);
         await Patient.findByIdAndUpdate(patient, { $set: { dietChart: createdDietChart._id } })
         res.status(200).json(createdDietChart)
     } catch (error) {
@@ -29,7 +30,7 @@ const getDietChartByPatient = expressAsyncHandler(async (req, res) => {
     const patient = await Patient.findById(id);
     if (!patient) return;
     try {
-        const dietChart = await DietChart.find({ patient: id })
+        const dietChart = await DietChart.find({ patient: id }).populate("patient", "-_id")
         if (!dietChart) return res.status(200).json({ message: "there is not a diet chart defined for this user" })
         res.status(200).json(dietChart)
     } catch (error) {
@@ -42,7 +43,7 @@ const updateDietChart = expressAsyncHandler(async (req, res) => {
     if (!id) return;
     const { patient, meals } = req.body;
     try {
-        await DietChart.findByIdAndUpdate(id, { patient, meals }, { new: true })
+        const updatedDietChar = await DietChart.findByIdAndUpdate(id, { patient, meals }, { new: true }).populate("patient")
         res.status(200).json({ message: "updated successfully" })
     } catch (error) {
         res.status(400).json({ message: "failed! something wrong" })
@@ -55,7 +56,7 @@ const deleteDietChart = expressAsyncHandler(async (req, res) => {
     const dietChart = await DietChart.findById(id)
     if (!dietChart) return res.status(400).json({ message: "diet not found" })
     try {
-        await Patient.findOneAndUpdate({ _id: dietChart.patient }, { $pull: { dietChart: id } })
+        await Patient.findOneAndUpdate({ _id: dietChart.patient }, { $unset: { dietChart: "" } })
         await DietChart.findByIdAndDelete(id)
         res.status(200).json({ message: "Diet chart deleted successfully" })
     } catch (error) {

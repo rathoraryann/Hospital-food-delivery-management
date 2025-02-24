@@ -15,7 +15,7 @@ const createDelivery = expressAsyncHandler(async (req, res) => {
 
 const getAllDeliveries = expressAsyncHandler(async (req, res) => {
     try {
-        const deliveries = await Delivery.find()
+        const deliveries = await Delivery.find().populate('patient').populate('deliveryPerson', '-password').populate('dietChart')
         res.status(200).json(deliveries)
     } catch (error) {
         console.log(error)
