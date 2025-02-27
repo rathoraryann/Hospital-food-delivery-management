@@ -18,7 +18,6 @@ const getAllDeliveries = expressAsyncHandler(async (req, res) => {
         const deliveries = await Delivery.find().populate('patient').populate('deliveryPerson', '-password').populate('dietChart')
         res.status(200).json(deliveries)
     } catch (error) {
-        console.log(error)
         res.status(400).json({ message: "failed! something wrong" })
     }
 })

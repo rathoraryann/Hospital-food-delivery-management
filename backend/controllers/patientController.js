@@ -59,7 +59,6 @@ const getAllPatients = expressAsyncHandler(async (req, res) => {
 const getPatientById = expressAsyncHandler(async (req, res) => {
     if (!verifyAuthentication(req.user)) return;
     const patient = await Patient.findById(req.params.id).populate("dietChart")
-    console.log(patient)
     if (!patient) {
         return res.status(400).json({ message: "Patient not found" })
     }

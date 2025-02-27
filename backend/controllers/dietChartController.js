@@ -16,7 +16,6 @@ const createDietChart = expressAsyncHandler(async (req, res) => {
             meals,
             createdBy: req.user._id
         })
-        console.log(meals);
         await Patient.findByIdAndUpdate(patient, { $set: { dietChart: createdDietChart._id } })
         res.status(200).json(createdDietChart)
     } catch (error) {

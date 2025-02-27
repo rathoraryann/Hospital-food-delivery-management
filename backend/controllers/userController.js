@@ -7,7 +7,7 @@ const signup = asyncHandler(async (req, res) => {
     if (!name || !email || !role || !password) return;
     const userExist = await User.findOne({ email })
     if (userExist) {
-        res.status(200).json({ msg: "user Exists" })
+        res.status(300).json({ message: "user exists" })
         return;
     }
     const hashedPassword = await generateHashedPassword(password);
