@@ -110,10 +110,9 @@ const Authentication = () => {
                   fontSize: "32px",
                   fontWeight: "800",
                   color: "gray",
-                  px: "8px",
                 }}
               >
-                "Join with us"
+                Join with us
               </Text>
             </Box>
             <Signup toggleIsSignUp={toggleIsSignUp} />
@@ -140,7 +139,6 @@ const Authentication = () => {
                 fontSize: "32px",
                 fontWeight: "800",
                 color: "gray",
-                px: "8px",
               }}
             >
               Welcome
